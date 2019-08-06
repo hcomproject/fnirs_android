@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#FFFFFF</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorBabyPink">#FFBFD3</color>
+    <color name="colorGray">#4E4E4E</color>
+    <color name="colorWhite">#FFFFFF</color>
+    <color name="colorBlack">#000000</color>
+
+    <color name="textNormaInverse">#ffffff</color>
+    <color name="textNormal">#000000</color>
+    <color name="transparent">#00000000</color>
+    <color name="channelActivate">#FF4081</color>
+    <color name="channelNormal">#000000</color>
+</resources>
