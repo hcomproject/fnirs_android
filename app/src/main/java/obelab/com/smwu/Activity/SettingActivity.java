@@ -1,5 +1,6 @@
 package obelab.com.smwu.Activity;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
@@ -9,10 +10,14 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 import com.shawnlin.numberpicker.NumberPicker;
 
 import java.lang.ref.WeakReference;
+import java.util.List;
 
 import obelab.com.nirsitsdk.NirsitProvider;
 import obelab.com.smwu.R;
@@ -46,12 +51,29 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                // findViewById 대신 databinding 이용
+                binding = DataBindingUtil.setContentView(SettingActivity.this, R.layout.activity_setting);
 
-        // findViewById 대신 databinding 이용
-        binding = DataBindingUtil.setContentView(this, R.layout.activity_setting);
+                initNirsit();
+                initLayout();
+            }
 
-        initNirsit();
-        initLayout();
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                Toast.makeText(SettingActivity.this, "권한  거부", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        TedPermission.with(SettingActivity.this)
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("데이터 저장을 위해 파일 쓰기/읽기 권한이 필요합니다.")
+                .setDeniedMessage("왜 거부하셨어요...\n하지만 [설정] > [권한] 에서 권한을 허용할 수 있어요.")
+                .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
+                .check();
     }
 
     private void initLayout() {

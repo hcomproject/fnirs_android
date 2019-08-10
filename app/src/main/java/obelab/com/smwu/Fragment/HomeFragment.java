@@ -218,6 +218,7 @@ public class HomeFragment extends Fragment {
      */
     public void saveData(String fileName, int cnt, double[] splittedHbO2HbR) {
 
+
         if (cnt == 1) {// 첫 데이터 - file 생성
             fileUtils.makeDirectory(PATH);
             mFile = new File(PATH, fileName + ".txt");

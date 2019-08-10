@@ -77,7 +77,7 @@ public class fileUtils {
                     Log.i(TAG, "파일생성 여부 = " + isSuccess);
                 }
             } else {
-                //Log.i(TAG, "file.exists");
+                Log.i(TAG, "file.exists");
             }
         }
         return file;
@@ -229,7 +229,6 @@ public class fileUtils {
         }
         return result;
     }
-
     /**
      * 디렉토리에 안에 내용을 보여 준다.
      *
