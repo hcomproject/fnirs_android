@@ -29,14 +29,12 @@ import obelab.com.smwu.R;
 import obelab.com.smwu.utils.fileUtils;
 
 
-
 /**
  * 기존 코드들은 모두 주석처리 하였습니다.
  * 측정 전 먼저 gain calibration을 해야합니다. 현재는 버튼을 통해 gain cal을 하는 화면으로 넘어가도록 구성하였습니다.(SettingActivity.java 참고 및 UI 추가 )
  * Mbll은 측정 시작 5초 후에 켜야합니다. 1초당 8개의 데이터를 받으므로 데이터 개수를 세어 40개부터 Mbll을 키고, resetHemo도 켜야 데이터가 정상적으로 나옵니다.(코드 설명 有)
  * array를 이용해 한꺼번에 데이터를 파일로 저장할 경우에는 데이터가 많아지거나 앱이 중단될 경우 데이터가 사라집니다.
  * 파일 저장 위치 역시 context가 아닌 sdcard안에 저장해야 데이터 확인이 가능합니다. - 실시간으로 sdcard안에 파일을 만들어 쓰는 방식으로 수정하였습니다.(코드 설명 有)
- *
  */
 public class HomeFragment extends Fragment {
     public static final String PATH = Environment.getExternalStorageDirectory() + "/SMWU/DATA";
@@ -217,8 +215,6 @@ public class HomeFragment extends Fragment {
      * 실시간으로 쓰여지기 때문에 중간에 어플이 중지되더라도 그 이전까지의 데이터는 파일에 남아있습니다.
      */
     public void saveData(String fileName, int cnt, double[] splittedHbO2HbR) {
-
-
         if (cnt == 1) {// 첫 데이터 - file 생성
             fileUtils.makeDirectory(PATH);
             mFile = new File(PATH, fileName + ".txt");
