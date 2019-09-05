@@ -16,6 +16,14 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.s3.AmazonS3;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -56,8 +64,9 @@ public class HomeFragment extends Fragment {
     double[] splittedHbO2 = new double[16];
 
     //ArrayList<double[]> inputData = new ArrayList();
-    double[] splittedHbR = new double[16];
+    //double[] splittedHbR = new double[16];
     Button btnGainCal;
+    Button btnUpload;
     //timer
     long outTime;
     Handler myTimer = new Handler() {
@@ -69,7 +78,14 @@ public class HomeFragment extends Fragment {
     // 추가한 변수들
     private int cnt = 0;
     private Timestamp ts;
-    private File mFile;
+    File mFile;
+
+    //S3 upload 변수
+    CognitoCachingCredentialsProvider credentialsProvider;
+    AmazonS3 s3;
+    TransferUtility transferUtility;
+    final String MY_BUCKET = "hcom-fnirs";
+    String OBJECT_KEY = "";
 
     public HomeFragment() {
     }
@@ -92,6 +108,7 @@ public class HomeFragment extends Fragment {
 
         // gaincal로 넘어가기 위해 추가한 버튼
         btnGainCal = (Button) view.findViewById(R.id.btnGainCal);
+        btnUpload = (Button) view.findViewById(R.id.btnUpload);
 
         nirsitProvider = new NirsitProvider(getActivity(), ip);
         nirsitProvider.setMbll(false);
@@ -100,14 +117,14 @@ public class HomeFragment extends Fragment {
         nirsitProvider.setDataListener(new NirsitProvider.NirsitDataListener() {
             @Override
             public void onReceiveData(NirsitData data) {
-                double[] splittedHbO2HbR = new double[33];
+                double[] splittedHbO2HbR = new double[17];
                 String resultTime = String.format("%02d.%02d", (outTime / 1000), (outTime % 1000));
                 for (int i = 16; i < 32; i++) {
                     splittedHbO2[i - 16] = data.getHbO2()[i];
-                    splittedHbR[i - 16] = data.getHbR()[i];
+                    //splittedHbR[i - 16] = data.getHbR()[i];
                     splittedHbO2HbR[0] = Double.parseDouble(resultTime);     //timestamp
-                    splittedHbO2HbR[2 * i - 31] = data.getHbO2()[i];    //2k+1
-                    splittedHbO2HbR[2 * i - 30] = data.getHbR()[i];     //2(k+1)
+                    splittedHbO2HbR[i - 15] = data.getHbO2()[i];    //2k+1
+                    //splittedHbO2HbR[2 * i - 30] = data.getHbR()[i];     //2(k+1)
                 }
                 Log.d("time", data.getTimestamp());
 
@@ -120,7 +137,7 @@ public class HomeFragment extends Fragment {
 
                 //inputData.add(splittedHbO2HbR);
                 dataHbO2TextView.setText("[d780]\n" + Arrays.toString(splittedHbO2));
-                dataHbRTextView.setText("[d850]\n" + Arrays.toString(splittedHbR));
+                //dataHbRTextView.setText("[d850]\n" + Arrays.toString(splittedHbR));
 
                 Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
 
@@ -128,6 +145,7 @@ public class HomeFragment extends Fragment {
                     ts = new Timestamp(System.currentTimeMillis());
                 // 파일 이름: "mbll_start를 누른 시각의 timestamp"
                 saveData("mbll_" + ts, cnt, splittedHbO2HbR);
+                OBJECT_KEY = "mbll_" + ts + ".txt";
 
                 Log.d(TAG, "raw:" + data.getRaw());
             }
@@ -135,7 +153,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onDisconnected() {
                 Toast.makeText(getActivity(), "onDisconnected()", Toast.LENGTH_SHORT).show();
-
             }
 
             @Override
@@ -144,6 +161,7 @@ public class HomeFragment extends Fragment {
             }
         });
 
+
         btnStart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,6 +169,7 @@ public class HomeFragment extends Fragment {
                 Log.i("STATE", "Button Pressed");
 
                 switch (cur_Status) {
+                    // 시작
                     case Init:
                         myBaseTime = SystemClock.elapsedRealtime();
                         //System.out.println(myBaseTime);
@@ -163,6 +182,7 @@ public class HomeFragment extends Fragment {
                         //inputData.clear();
                         break;
 
+                    // 종료
                     case Run:
                         Toast.makeText(getActivity(), txtTime.getText() + " 동안 학습하셨습니다.", Toast.LENGTH_SHORT).show();
                         myTimer.removeMessages(0);
@@ -180,6 +200,7 @@ public class HomeFragment extends Fragment {
 
                         txtTime.setText("00:00:00");
 
+                        Log.d("s3", OBJECT_KEY);
                         /*
                         String input = "";
                         for (int i = 0; i < inputData.size(); i++) {
@@ -187,6 +208,8 @@ public class HomeFragment extends Fragment {
                         }
                         inputDataTextView.setText("[InputData]\n" + input);
                         */
+
+
                         Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
                 }
             }
@@ -200,6 +223,33 @@ public class HomeFragment extends Fragment {
             }
         });
 
+        btnUpload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // wifi 무조건 변경하기
+                // NIRSIT 네트워크에 연결되어있으면 서버와 통신 불가능.
+
+                /**S3 upload**/
+                credentialsProvider = new CognitoCachingCredentialsProvider(
+                        getActivity().getApplicationContext(),
+                        "ap-northeast-2:19fe23f6-7318-4188-b2ab-a0d4703ebfe1", // Identity pool ID
+                        Regions.AP_NORTHEAST_2 // Region
+                );
+
+                //AmazonS3Client 객체 생성
+                s3 = new AmazonS3Client(credentialsProvider);
+                s3.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
+                s3.setEndpoint("s3.ap-northeast-2.amazonaws.com");
+                transferUtility = new TransferUtility(s3, getActivity().getApplicationContext());
+
+                //TransferObserver 객체 생성
+                TransferObserver observer = transferUtility.upload(
+                        MY_BUCKET, /* 업로드 할 버킷 이름 */
+                        OBJECT_KEY, /* 버킷에 저장할 파일의 이름 */
+                        mFile /* 버킷에 저장할 파일 */
+                );
+            }
+        });
         return view;
     }
 
@@ -242,20 +292,22 @@ public class HomeFragment extends Fragment {
     /**
      * context 말고 sdcard에 올려야 파일 확인이 가능합니다.
      * context 로 저장하면 루팅된 디바이스 or android studio로 만 접근가능합니다 .
-     public void saveData(String data) {
-     String inputData = data;
-     FileOutputStream fos = null;
-     try {
-     fos = getContext().openFileOutput("mblldata.txt", Context.MODE_PRIVATE);
-     fos.write(inputData.getBytes());
-     fos.close();
-
-     } catch (FileNotFoundException e) {
-     e.printStackTrace();
-     } catch (IOException e) {
-     e.printStackTrace();
-     }
-     }
+     * public void saveData(String data) {
+     * String inputData = data;
+     * FileOutputStream fos = null;
+     * try {
+     * fos = getContext().openFileOutput("mblldata.txt", Context.MODE_PRIVATE);
+     * fos.write(inputData.getBytes());
+     * fos.close();
+     * <p>
+     * } catch (FileNotFoundException e) {
+     * e.printStackTrace();
+     * } catch (IOException e) {
+     * e.printStackTrace();
+     * }
+     * }
      */
+
+
 }
 

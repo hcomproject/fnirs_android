@@ -3,6 +3,11 @@ package obelab.com.smwu.utils;
 import android.os.Environment;
 import android.util.Log;
 
+import com.amazonaws.mobile.client.AWSMobileClient;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
+import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
+import com.amazonaws.services.s3.AmazonS3Client;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
@@ -132,7 +137,6 @@ public class fileUtils {
         } catch (FileNotFoundException e){
             e.printStackTrace();
             Log.i(TAG , e.getMessage());
-            // 미친 .. 권한이 있는데 오류나는 이유는 뭔가 ?
         } catch (NullPointerException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -293,6 +297,4 @@ public class fileUtils {
         }
         return result;
     }
-
-
 }

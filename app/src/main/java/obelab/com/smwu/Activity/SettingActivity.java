@@ -91,7 +91,7 @@ public class SettingActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if(mCalStatus == CAL_STATUS.END) {
-                    if(channels >= 40){ // 통과한 채널 개수가 40 이상일 때
+                    if(channels >= 30){ // 통과한 채널 개수가 40 이상일 때
                         finish();
                     }else {
                         AlertDialog.Builder aa = new AlertDialog.Builder(SettingActivity.this);
