@@ -1,6 +1,17 @@
 package obelab.com.smwu.Fragment;
 
+import android.Manifest;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
@@ -8,10 +19,13 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,18 +37,24 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.gun0912.tedpermission.PermissionListener;
+import com.gun0912.tedpermission.TedPermission;
 
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 import obelab.com.nirsitsdk.NirsitData;
 import obelab.com.nirsitsdk.NirsitProvider;
 import obelab.com.smwu.Activity.SettingActivity;
 import obelab.com.smwu.R;
 import obelab.com.smwu.utils.fileUtils;
+
+import static android.content.Context.WIFI_SERVICE;
 
 
 /**
@@ -75,7 +95,7 @@ public class HomeFragment extends Fragment {
             myTimer.sendEmptyMessage(0);    // sendEmptyMessage는 비어있는 메시지를 Handler에게 전송.
         }
     };
-    // 추가한 변수들
+
     private int cnt = 0;
     private Timestamp ts;
     File mFile;
@@ -86,6 +106,14 @@ public class HomeFragment extends Fragment {
     TransferUtility transferUtility;
     final String MY_BUCKET = "hcom-fnirs";
     String OBJECT_KEY = "";
+
+    // 네트워크
+    ScanResult scanResult;
+    WifiManager wm;
+    WifiConfiguration wifiConfig = new WifiConfiguration(); // 와이파이 연결하기
+
+    List<ScanResult> apList = new ArrayList<ScanResult>();
+    ArrayAdapter<String> adapter;
 
     public HomeFragment() {
     }
@@ -104,11 +132,20 @@ public class HomeFragment extends Fragment {
         vp = (ViewPager) view.findViewById(R.id.vp_main_product);
         dataHbRTextView = (TextView) view.findViewById(R.id.dataHbRTextView);
         dataHbO2TextView = (TextView) view.findViewById(R.id.dataHbO2TextView);
-        //inputDataTextView = (TextView) view.findViewById(R.id.inputDataTextView);
 
         // gaincal로 넘어가기 위해 추가한 버튼
         btnGainCal = (Button) view.findViewById(R.id.btnGainCal);
         btnUpload = (Button) view.findViewById(R.id.btnUpload);
+
+        // 네트워크 변경 권한 얻기
+        getPermission();
+
+        //WiFi Scan List 불러오기
+        wm = (WifiManager) getActivity().getApplicationContext().getSystemService(WIFI_SERVICE);
+
+        if (!wm.isWifiEnabled()) {
+            wm.setWifiEnabled(true); // wifi 가 켜져있지 않을 경우 자동으로 wifi를 켜줍니다.
+        }
 
         nirsitProvider = new NirsitProvider(getActivity(), ip);
         nirsitProvider.setMbll(false);
@@ -184,33 +221,31 @@ public class HomeFragment extends Fragment {
 
                     // 종료
                     case Run:
-                        Toast.makeText(getActivity(), txtTime.getText() + " 동안 학습하셨습니다.", Toast.LENGTH_SHORT).show();
-                        myTimer.removeMessages(0);
-                        myPauseTime = SystemClock.elapsedRealtime();
-                        btnStart.setText("Start!");
-                        cur_Status = Init;
-                        if (nirsitProvider == null) {
-                            return;
+                        String minute = txtTime.getText().toString().split(":")[0];
+                        Integer int_minute = Integer.parseInt(minute);
+                        Log.d("현주", int_minute.toString());
+
+                        if (int_minute >= 1) {
+                            Toast.makeText(getActivity(), txtTime.getText() + " 동안 학습하셨습니다.", Toast.LENGTH_SHORT).show();
+                            myTimer.removeMessages(0);
+                            myPauseTime = SystemClock.elapsedRealtime();
+                            btnStart.setText("Start!");
+                            cur_Status = Init;
+                            if (nirsitProvider == null) {
+                                return;
+                            }
+                            nirsitProvider.stopMonitoring();
+
+                            // stop시 Mbll 초기화, count도 초기화
+                            nirsitProvider.setMbll(false);
+                            cnt = 0;
+
+                            txtTime.setText("00:00:00");
+
+                            Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
+                        } else {
+                            Toast.makeText(getActivity(), "최소 1분은 학습하셔야 합니다.", Toast.LENGTH_SHORT).show();
                         }
-                        nirsitProvider.stopMonitoring();
-
-                        // stop시 Mbll 초기화, count도 초기화
-                        nirsitProvider.setMbll(false);
-                        cnt = 0;
-
-                        txtTime.setText("00:00:00");
-
-                        Log.d("s3", OBJECT_KEY);
-                        /*
-                        String input = "";
-                        for (int i = 0; i < inputData.size(); i++) {
-                            input = input.concat(Arrays.toString(inputData.get(i))).concat(("\n"));
-                        }
-                        inputDataTextView.setText("[InputData]\n" + input);
-                        */
-
-
-                        Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
                 }
             }
         });
@@ -219,6 +254,13 @@ public class HomeFragment extends Fragment {
         btnGainCal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                wifiConfig.SSID = String.format("\"%s\"", "NIRSIT4");
+                wifiConfig.preSharedKey = String.format("\"%s\"", "12345678");
+
+                int netId = wm.addNetwork(wifiConfig);
+                wm.disconnect();
+                wm.enableNetwork(netId, true);
+                wm.reconnect();
                 startActivity(new Intent(getActivity(), SettingActivity.class));
             }
         });
@@ -228,29 +270,44 @@ public class HomeFragment extends Fragment {
             public void onClick(View v) {
                 // wifi 무조건 변경하기
                 // NIRSIT 네트워크에 연결되어있으면 서버와 통신 불가능.
+                connection_check("NIRSIT4");
 
-                /**S3 upload**/
-                credentialsProvider = new CognitoCachingCredentialsProvider(
-                        getActivity().getApplicationContext(),
-                        "ap-northeast-2:19fe23f6-7318-4188-b2ab-a0d4703ebfe1", // Identity pool ID
-                        Regions.AP_NORTHEAST_2 // Region
-                );
-
-                //AmazonS3Client 객체 생성
-                s3 = new AmazonS3Client(credentialsProvider);
-                s3.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
-                s3.setEndpoint("s3.ap-northeast-2.amazonaws.com");
-                transferUtility = new TransferUtility(s3, getActivity().getApplicationContext());
-
-                //TransferObserver 객체 생성
-                TransferObserver observer = transferUtility.upload(
-                        MY_BUCKET, /* 업로드 할 버킷 이름 */
-                        OBJECT_KEY, /* 버킷에 저장할 파일의 이름 */
-                        mFile /* 버킷에 저장할 파일 */
-                );
+                try{
+                    uploadToS3(MY_BUCKET, OBJECT_KEY, mFile);
+                }catch (Exception e) {
+                    Toast.makeText(getActivity().getApplicationContext(), "업로드할 파일이 없습니다.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         return view;
+    }
+
+
+    /**
+     *  upload the processed data to S3
+     *  @param  bucket_name : 업로드 할 버킷 이름,
+     *                      file_name : 버킷에 저장할 파일의 이름,
+     *                      file : 버킷에 저장할 파일
+     */
+    private void uploadToS3(String bucket_name, String file_name, File file){
+        credentialsProvider = new CognitoCachingCredentialsProvider(
+                getActivity().getApplicationContext(),
+                "ap-northeast-2:19fe23f6-7318-4188-b2ab-a0d4703ebfe1", // Identity pool ID
+                Regions.AP_NORTHEAST_2 // Region
+        );
+
+        //AmazonS3Client 객체 생성
+        s3 = new AmazonS3Client(credentialsProvider);
+        s3.setRegion(Region.getRegion(Regions.AP_NORTHEAST_2));
+        s3.setEndpoint("s3.ap-northeast-2.amazonaws.com");
+        transferUtility = new TransferUtility(s3, getActivity().getApplicationContext());
+
+        //TransferObserver 객체 생성
+        TransferObserver observer = transferUtility.upload(
+                bucket_name, /* 업로드 할 버킷 이름 */
+                file_name, /* 버킷에 저장할 파일의 이름 */
+                file /* 버킷에 저장할 파일  */
+        );
     }
 
     String getTimeOut() {
@@ -286,8 +343,112 @@ public class HomeFragment extends Fragment {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
     }
+
+    /**
+     * 실행에 필요한 권한 얻기
+     */
+    public void getPermission() {
+        PermissionListener permissionListener = new PermissionListener() {
+            @Override
+            public void onPermissionGranted() {
+                //Toast.makeText(getActivity().getApplicationContext(), "권한 허가", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPermissionDenied(List<String> deniedPermissions) {
+                //Toast.makeText(getActivity().getApplicationContext(), "권한 거부", Toast.LENGTH_SHORT).show();
+            }
+        };
+        TedPermission.with(getActivity().getApplicationContext())
+                .setPermissionListener(permissionListener)
+                .setRationaleMessage("네트워크 통신을 위해서 다음 권한을 허용해야 합니다.")
+                .setDeniedMessage("[설정] > [권한] 에서 권한을 허용할 수 있어요.")
+                .setPermissions(Manifest.permission.ACCESS_WIFI_STATE)
+                .setPermissions(Manifest.permission.CHANGE_WIFI_STATE)
+                .setPermissions(Manifest.permission.CHANGE_WIFI_MULTICAST_STATE)
+                .setPermissions(Manifest.permission.CHANGE_NETWORK_STATE)
+                .setPermissions(Manifest.permission.ACCESS_NETWORK_STATE)
+                .setPermissions(Manifest.permission.ACCESS_COARSE_LOCATION)
+                .setPermissions(Manifest.permission.ACCESS_FINE_LOCATION)
+                .check();
+    }
+
+    /**
+     *  연결 가능한 네트워크 찾기
+     */
+    public void searchWifi() {
+        wm.startScan();
+        apList = wm.getScanResults();       //WiFi Scan 결과 - Return List
+        if (wm.getScanResults() != null) {
+            adapter = new ArrayAdapter<>(getContext(), android.R.layout.select_dialog_item);
+
+            int size = apList.size();
+            if (size == 0)
+                Toast.makeText(getContext(), "GPS를 켜주세요.", Toast.LENGTH_SHORT).show();
+            for (int i = 0; i < size; i++) {
+                scanResult = (ScanResult) apList.get(i);
+                adapter.add(apList.get(i).SSID);
+                Log.d("현주", apList.get(i).SSID);
+            }
+            adapter.notifyDataSetChanged();
+        }
+        CreateListDialog();
+    }
+
+    /**
+     *  현재 접속된 WIFI 이름(SSID) 가져와서 해제하기
+     * @param  wifi_name
+     */
+    public void connection_check(String wifi_name) {
+        // 현재 접속된 WIFI 이름(SSID) 가져오기
+        String ssid = null;
+        ConnectivityManager connManager = (ConnectivityManager) getActivity().getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connManager.getNetworkInfo(ConnectivityManager.TYPE_WIFI);
+        if (networkInfo.isConnected()) {
+            final WifiManager wifiManager = (WifiManager) getActivity().getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+            final WifiInfo connectionInfo = wifiManager.getConnectionInfo();
+            if (connectionInfo != null && !TextUtils.isEmpty(connectionInfo.getSSID())) {
+                ssid = connectionInfo.getSSID();
+            }
+        }
+        // 특정 와이파이와 연결 해제
+        if (ssid != null && ssid.contains(wifi_name)) {
+            wm.disconnect();
+            searchWifi();
+        }
+    }
+
+    /**
+     *  연결 가능한 네트워크 알려주는 다이얼로그 생성
+     */
+    public void CreateListDialog() {
+        AlertDialog.Builder wifi_list = new AlertDialog.Builder(getContext());
+        wifi_list.setTitle("와이파이 변경");
+        wifi_list.setIcon(R.drawable.brain);
+
+        wifi_list.setAdapter(adapter, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String menu = adapter.getItem(which);
+
+                wifiConfig.SSID = String.format("\"%s\"", menu);
+                if (menu.contains("HCILAB")){
+                    wifiConfig.preSharedKey = String.format("\"%s\"", "hcilab@417");
+                }
+                if (menu.contains("NIRSIT4")){
+                    wifiConfig.preSharedKey = String.format("\"%s\"", "12345678");
+                }
+                int netId = wm.addNetwork(wifiConfig);
+                wm.disconnect();
+                wm.enableNetwork(netId, true);
+                wm.reconnect();
+                //Toast.makeText(getActivity().getApplicationContext(), menu, Toast.LENGTH_SHORT).show();
+            }
+        });
+        wifi_list.show();
+    }
+
 
     /**
      * context 말고 sdcard에 올려야 파일 확인이 가능합니다.
