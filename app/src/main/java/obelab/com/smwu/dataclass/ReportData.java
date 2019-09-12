@@ -9,11 +9,10 @@ public class ReportData {
     private final String FOCUSED_RATIO;
     private final int SCORE;
     private final String GRAPH_ANALYSIS;
-    private final String GRAPH_IMG;
     private final String SCORE_IMG;
 
     public ReportData(String key, String date_info, String time_info, String study_time, String focused_time,
-                      String focused_ratio, int score, String graph_analysis, String graph_img, String score_img){
+                      String focused_ratio, int score, String graph_analysis, String score_img){
         this.KEY = key;
         this.DATE_INFO = date_info;
         this.TIME_INFO = time_info;
@@ -22,7 +21,6 @@ public class ReportData {
         this.FOCUSED_RATIO = focused_ratio;
         this.SCORE = score;
         this.GRAPH_ANALYSIS = graph_analysis;
-        this.GRAPH_IMG = graph_img;
         this.SCORE_IMG = score_img;
     }
 
@@ -54,10 +52,6 @@ public class ReportData {
 
     public String getGraph_analysis(){
         return GRAPH_ANALYSIS;
-    }
-
-    public String getGraph_img(){
-        return GRAPH_IMG;
     }
 
     public String getScore_img(){return SCORE_IMG;}

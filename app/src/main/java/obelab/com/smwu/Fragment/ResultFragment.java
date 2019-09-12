@@ -42,6 +42,10 @@ public class ResultFragment extends Fragment {
         rv_report_all_list = v.findViewById(R.id.rv_report_all_list);
         sl_result_report_refresh = v.findViewById(R.id.sl_result_report_refresh);
 
+        sl_result_report_refresh.setColorSchemeResources(
+                android.R.color.holo_red_light
+        );
+
         return v;
     }
 
