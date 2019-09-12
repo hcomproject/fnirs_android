@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="20dp">
+    android:paddingVertical="11dp"
+    android:paddingHorizontal="20dp">
     <LinearLayout
         android:id="@+id/ll_rv_item_result_overview_container"
         android:orientation="vertical"
@@ -15,14 +16,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" android:id="@+id/tv_rv_item_product_overview_date"
-            android:textSize="15dp"
-            android:textColor="@color/colorBlack"
-            android:layout_marginVertical="5dp"
-            android:layout_marginBottom="5dp"
-            android:text="dd:ddc"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" android:id="@+id/tv_rv_item_product_overview_date"
+                android:textSize="15dp"
+                android:textColor="@color/colorBlack"
+                android:layout_marginVertical="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="dd:ddc"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" android:id="@+id/tv_rv_item_product_overview_time"
@@ -69,7 +70,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" android:id="@+id/tv_rv_item_product_overview_real_focus_time"
                 android:textSize="15dp"
-                android:textColor="@color/colorAccent"
+                android:textColor="@color/colorAccentRed"
                 android:text="time"/>
         </LinearLayout>
     </LinearLayout>
@@ -81,10 +82,11 @@
         android:layout_gravity="right"
         android:layout_marginVertical="5dp"
         android:layout_marginBottom="5dp"
+        android:paddingRight="20dp"
         android:gravity="right"
         android:text="76"
-        android:textColor="@color/colorAccent"
-        android:textSize="60dp"
+        android:textColor="@color/colorAccentRed"
+        android:textSize="52dp"
         android:textStyle="bold" />
 
 </LinearLayout>

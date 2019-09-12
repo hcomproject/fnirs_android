@@ -3,10 +3,15 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
-    <color name="colorBabyPink">#FFBFD3</color>
+    <color name="colorAccentRed">#FF4F69</color>
+    <color name="colorBabyPink">#FCD5DB</color>
     <color name="colorGray">#4E4E4E</color>
+    <color name="colorMidGray">#999999</color>
+    <color name="colorWhiteGray">#C1ECE1E1</color>
     <color name="colorWhite">#FFFFFF</color>
     <color name="colorBlack">#000000</color>
+    <color name="colorWhiteRed">#FFC5CE</color>
+    <color name="colorBackground">#F2FFF6F9</color>
 
     <color name="textNormaInverse">#ffffff</color>
     <color name="textNormal">#000000</color>

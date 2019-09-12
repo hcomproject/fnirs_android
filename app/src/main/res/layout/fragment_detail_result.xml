@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/colorBackground"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activity.OpenActivity">
@@ -8,67 +9,75 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:paddingTop="20dp"
         android:orientation="vertical">
+        <FrameLayout
+            android:layout_width="215dp"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            android:layout_gravity="center_horizontal"
+            android:background="@drawable/accent_border_fill">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingVertical="6dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/tv_detail_date"
+                    android:layout_width="91dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:paddingLeft="45dp"
+                    android:text="00월 00일"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="의 세부 집중레포트야!"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </FrameLayout>
 
         <ImageView
-            android:layout_width="200dp"
-            android:layout_height="160dp"
+            android:layout_width="20dip"
+            android:layout_height="20dip"
+            android:layout_marginBottom="-10dp"
             android:layout_gravity="center_horizontal"
-            android:src="@drawable/brain"
-            android:id="@+id/main_logo"/>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:background="@drawable/chat_box"
+            android:rotation="180" />
 
-            <TextView
-                android:id="@+id/tv_detail_date"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="00월 00일"
-                android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="22dp"
-                android:textStyle="bold" />
+        <ImageView
+            android:id="@+id/main_logo"
+            android:layout_width="145dp"
+            android:layout_height="116dp"
+            android:layout_gravity="center_horizontal"
+            android:src="@drawable/brain_look_low" />
 
-            <TextView
-                android:layout_width="224dp"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-medium"
-                android:text="의 세부 집중레포트야!"
-                android:textAlignment="center"
-                android:textColor="@color/colorGray"
-                android:textSize="22dp"
-                android:textStyle="bold" />
-        </LinearLayout>
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="10dp"
-            android:background="@color/colorGray">
-        </View>
-
-        <LinearLayout
+        <LinearLayout android:background="@drawable/two_round_border_fill"
             android:layout_width="match_parent"
             android:layout_height="317dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="202dp"
+                android:layout_width="720px"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
                 <TextView
-                    android:layout_width="204dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
@@ -77,23 +86,23 @@
                     android:text="전체 학습 시간"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="22dp" />
+                    android:textSize="20dp" />
 
                 <TextView
+                    android:layout_width="match_parent"
                     android:id="@+id/tv_detail_study_time"
-                    android:layout_width="204dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="00:00:00"
                     android:textAlignment="center"
-                    android:textColor="@color/colorGray"
-                    android:textSize="40dp"
+                    android:textColor="@color/colorMidGray"
+                    android:textSize="30dp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="204dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
@@ -102,23 +111,23 @@
                     android:text="실제 집중 시간"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="22dp" />
+                    android:textSize="20dp" />
 
                 <TextView
+                    android:layout_width="match_parent"
                     android:id="@+id/tv_detail_focused_time"
-                    android:layout_width="204dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="00:00:00"
                     android:textAlignment="center"
-                    android:textColor="@color/colorBabyPink"
-                    android:textSize="40dp"
+                    android:textColor="@color/colorMidGray"
+                    android:textSize="30dp"
                     android:textStyle="bold" />
 
                 <TextView
-                    android:layout_width="204dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
@@ -127,19 +136,19 @@
                     android:text="실제 집중 비율"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="22dp" />
+                    android:textSize="20dp" />
 
                 <TextView
+                    android:layout_width="match_parent"
                     android:id="@+id/tv_detail_focused_ratio"
-                    android:layout_width="204dp"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
                     android:fontFamily="sans-serif-medium"
                     android:text="00.0%"
                     android:textAlignment="center"
-                    android:textColor="@color/colorAccent"
-                    android:textSize="50dp"
+                    android:textColor="@color/colorGray"
+                    android:textSize="40dp"
                     android:textStyle="bold" />
             </LinearLayout>
 
@@ -148,13 +157,12 @@
                 android:layout_width="180dp"
                 android:layout_height="220dp"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="15dp"
                 android:layout_marginTop="50dp"
                 android:fontFamily="sans-serif-medium"
                 android:text="00"
                 android:textAlignment="center"
-                android:textColor="#FF5C5C"
-                android:textSize="140dp"
+                android:textColor="@color/colorAccentRed"
+                android:textSize="120dp"
                 android:textStyle="bold" />
         </LinearLayout>
         <LinearLayout
