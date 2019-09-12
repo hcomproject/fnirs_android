@@ -1,11 +1,9 @@
 package obelab.com.smwu.Fragment;
 
 import android.Manifest;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.wifi.ScanResult;
@@ -52,7 +50,10 @@ import obelab.com.nirsitsdk.NirsitData;
 import obelab.com.nirsitsdk.NirsitProvider;
 import obelab.com.smwu.Activity.SettingActivity;
 import obelab.com.smwu.R;
+import obelab.com.smwu.network.NetworkService;
 import obelab.com.smwu.utils.fileUtils;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import static android.content.Context.WIFI_SERVICE;
 

@@ -1,40 +1,43 @@
 package obelab.com.smwu.Fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-import obelab.com.smwu.Adapter.ResultOverviewRecyclerViewAdapter;
-import obelab.com.smwu.Data.ResultOverviewData;
+import obelab.com.smwu.Adapter.ReportsAllRVAdapter;
 import obelab.com.smwu.R;
+import obelab.com.smwu.dataclass.ReportData;
+import obelab.com.smwu.network.NetworkService;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class ResultFragment extends Fragment {
-    private ArrayList<ResultOverviewData> resultList = new ArrayList<>();
-    private RecyclerView recyclerView;
-    private ResultOverviewRecyclerViewAdapter mAdapter;
+
+    NetworkService networkService;
+    ArrayList<ReportData> dataList = new ArrayList<ReportData>();
+    ReportsAllRVAdapter reportsAllRVAdapter;
+    RecyclerView rv_report_all_list;
+    Context ctx;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_result, container, false);
-
-        //recyclerview
-        recyclerView = (RecyclerView) v.findViewById(R.id.recycler_view);
-        recyclerView.setHasFixedSize(true);
-        mAdapter = new ResultOverviewRecyclerViewAdapter(resultList);
-
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        rv_report_all_list = v.findViewById(R.id.rv_report_all_list);
+        getReportsResponse();
 
         return v;
     }
@@ -42,14 +45,44 @@ public class ResultFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        prepareData();
     }
 
-    //데이터 준비(최종적으로는 동적으로 추가하거나 삭제할 수 있어야 한다. 이 데이터를 어디에 저장할지 정해야 한다.)
-    private void prepareData() {
-        resultList.add(new ResultOverviewData("1","5월10일","04:10:07", "04:00:02",85));
-        resultList.add(new ResultOverviewData("2","5월11일","05:10:07", "05:00:02",82));
-        resultList.add(new ResultOverviewData("3","5월13일","03:10:07", "02:00:02",62));
+    private void getReportsResponse() {
+        // 서버 통신
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(NetworkService.baseURL)
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+        networkService = retrofit.create(NetworkService.class);
+
+
+        // 레포트 전체 보기 서버 통신
+        ctx = getActivity().getApplicationContext();
+        networkService.getReport("application/json")
+                .enqueue(new Callback<ArrayList<ReportData>>() {
+                   @Override
+                    public void onResponse(Call<ArrayList<ReportData>> call, Response<ArrayList<ReportData>> response) {
+                        if (response.isSuccessful()) {
+                            ArrayList<ReportData> body = response.body();
+                            reportsAllRVAdapter= new ReportsAllRVAdapter(ctx, body);
+
+                            if (body != null) {
+                                // 서버 통신을 위한 recyclerview
+                                rv_report_all_list.setAdapter(reportsAllRVAdapter);
+                                rv_report_all_list.setLayoutManager(new LinearLayoutManager(ctx));
+                                rv_report_all_list.setItemAnimator(new DefaultItemAnimator());
+                                reportsAllRVAdapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<ArrayList<ReportData>> call, Throwable t) {
+                        Log.e("ResultFragment", "서버 통신 실패"+t.toString());
+                    }
+                });
     }
+
 }
+
 
