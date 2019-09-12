@@ -1,10 +1,14 @@
 package obelab.com.smwu.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -29,11 +33,13 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvFocusedRatio;
     TextView tvScore;
     TextView tvResultScore;
+    TextView tvGraphAnalysis;
+    ImageView ivGraph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.fragment_detail_result);
+        setContentView(R.layout.activity_detail);
 
         Intent intent = getIntent();
         KEY = intent.getStringExtra("key");
@@ -44,6 +50,8 @@ public class DetailActivity extends AppCompatActivity {
         tvFocusedRatio = (TextView) findViewById(R.id.tv_detail_focused_ratio);
         tvScore = (TextView) findViewById(R.id.tv_detail_score);
         tvResultScore = (TextView) findViewById(R.id.tv_detail_result_score);
+        tvGraphAnalysis = (TextView) findViewById(R.id.tv_detail_graph_analysis);
+        ivGraph = (ImageView) findViewById(R.id.iv_detail_graph);
 
         try {
             getReportDetailResponse();
@@ -75,6 +83,12 @@ public class DetailActivity extends AppCompatActivity {
                                     tvFocusedRatio.setText(data.getFocused_ratio());
                                     tvScore.setText(Integer.toString(data.getScore()));
                                     tvResultScore.setText(Integer.toString(data.getScore()));
+                                    tvGraphAnalysis.setText(data.getGraph_analysis());
+
+                                    Glide.with(getApplicationContext())
+                                                .load(data.getGraph_img())
+                                                .into(ivGraph);
+
                                 }
                             }
                         }

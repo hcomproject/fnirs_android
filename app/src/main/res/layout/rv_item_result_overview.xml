@@ -30,8 +30,9 @@
                 android:textSize="15dp"
                 android:textColor="@color/colorBlack"
                 android:layout_marginVertical="5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginBottom="5dp"
-                android:text="  땡시 땡분"/>
+                android:text="땡시 땡분"/>
         </LinearLayout>
         <LinearLayout
             android:orientation="horizontal"
