@@ -6,68 +6,78 @@
     android:layout_height="match_parent">
     <!--tools:context=".Activity.MainActivity"-->
 
-    <LinearLayout android:background="@color/colorBackground"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="20dp"
-        android:orientation="vertical">
+        android:background="@color/colorBackground"
+        android:orientation="vertical"
+        android:paddingTop="20dp">
 
-        <FrameLayout
-            android:layout_width="190dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:paddingVertical="3dp"
-            android:background="@drawable/accent_border_fill">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
+            <FrameLayout
+                android:layout_width="190dp"
                 android:layout_height="wrap_content"
                 android:layout_centerHorizontal="true"
-                android:layout_marginLeft="12dp"
-                android:text="안녕, 내 이름은 집중이!&#10;오늘도 열공해보자 :)"
-                android:textAlignment="center"
-                android:textColor="@color/colorWhite"
-                android:textSize="10dp"
-                android:textStyle="bold" />
-        </FrameLayout>
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/accent_border_fill"
+                android:paddingVertical="3dp">
 
-        <ImageView
-            android:layout_width="20dip"
-            android:layout_height="20dip"
-            android:layout_gravity="center_horizontal"
-            android:background="@drawable/chat_box"
-            android:rotation="180" />
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="안녕, 내 이름은 집중이!&#10;오늘도 열공해보자 :)"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+            </FrameLayout>
 
-        <ImageView
-            android:id="@+id/main_logo"
-            android:layout_width="145dp"
-            android:layout_height="116dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="-10dp"
-            android:paddingBottom="10dp"
-            android:src="@drawable/brain_side_write" />
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/chat_box"
+                android:rotation="180" />
 
-        <LinearLayout android:orientation="vertical"
-            android:background="@drawable/two_round_border_fill"
+                <ImageView
+                    android:id="@+id/main_logo"
+                    android:layout_width="145dp"
+                    android:layout_height="116dp"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="-10dp"
+                    android:paddingBottom="10dp"
+                    android:src="@drawable/brain_side_write" />
+            </LinearLayout>
+
+
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:background="@drawable/two_round_border_fill"
+            android:orientation="vertical">
 
             <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginVertical="15dp"
                 android:layout_marginHorizontal="30dp"
+                android:layout_marginVertical="15dp"
                 android:background="@drawable/circle_fill"
                 android:paddingHorizontal="40dp">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:paddingVertical="60dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:paddingVertical="60dp">
 
                     <TextView
                         android:layout_width="match_parent"
@@ -104,30 +114,51 @@
                         android:textColor="@color/colorWhite" />
                 </LinearLayout>
             </FrameLayout>
+
             <LinearLayout
-                android:background="@color/colorWhite"
+                android:id="@+id/btnUpload"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:background="@drawable/primary_border_fill"
+                android:orientation="horizontal"
+                android:gravity="center">
 
-                <Button
-                    android:id="@+id/btnGainCal"
-                    android:layout_width="720px"
-                    android:layout_height="40dp"
-                    android:layout_centerHorizontal="true"
-                    android:background="@drawable/primary_border_fill"
-                    android:text="GAIN CAL"
-                    android:textColor="@color/colorGray" />
+                <ImageView
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="end"
+                    android:paddingTop="10dp"
+                    android:layout_marginVertical="10dp"
+                    android:src="@drawable/btn_upload" />
 
-                <Button
-                    android:id="@+id/btnUpload"
-                    android:layout_width="720px"
-                    android:layout_height="40dp"
-                    android:layout_alignParentEnd="true"
-                    android:background="@drawable/primary_border_fill"
-                    android:elevation="2dp"
-                    android:text="UPLOAD"
-                    android:textColor="@color/colorGray" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="UPLOAD FILE"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorGray"/>
+
+                <!--<Button-->
+                    <!--android:id="@+id/btnGainCal"-->
+                    <!--android:layout_width="720px"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_centerHorizontal="true"-->
+                    <!--android:background="@drawable/primary_border_fill"-->
+                    <!--android:text="GAIN CAL"-->
+                    <!--android:textColor="@color/colorGray" />-->
+
+
+
+
+                <!--<Button-->
+                    <!--android:id="@+id/btnUpload"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="40dp"-->
+                    <!--android:layout_alignParentEnd="true"-->
+                    <!--android:background="@drawable/primary_border_fill"-->
+                    <!--android:elevation="2dp"-->
+                    <!--android:text="UPLOAD"-->
+                    <!--android:textColor="@color/colorGray" />-->
             </LinearLayout>
         </LinearLayout>
 
@@ -159,7 +190,7 @@
                     android:text="[m780]"/>
             </ScrollView>
 
-            <!-- inputData - 보여줄 필요 없음 - file로 확인 가능
+            <!--inputData - 보여줄 필요 없음 - file로 확인 가능
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -172,8 +203,9 @@
                     android:textColor="@android:color/holo_red_dark"
                     android:text="[m780]"/>
             </ScrollView>
-            -->
 
-        </LinearLayout>
+
+        </LinearLayout-->
+    </LinearLayout>
     </LinearLayout>
 </ScrollView>

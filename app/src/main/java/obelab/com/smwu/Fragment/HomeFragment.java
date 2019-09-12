@@ -25,6 +25,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -86,8 +87,8 @@ public class HomeFragment extends Fragment {
 
     //ArrayList<double[]> inputData = new ArrayList();
     //double[] splittedHbR = new double[16];
-    Button btnGainCal;
-    Button btnUpload;
+    //Button btnGainCal;
+    LinearLayout btnUpload;
     //timer
     long outTime;
     Handler myTimer = new Handler() {
@@ -135,8 +136,8 @@ public class HomeFragment extends Fragment {
         dataHbO2TextView = (TextView) view.findViewById(R.id.dataHbO2TextView);
 
         // gaincal로 넘어가기 위해 추가한 버튼
-        btnGainCal = (Button) view.findViewById(R.id.btnGainCal);
-        btnUpload = (Button) view.findViewById(R.id.btnUpload);
+        //btnGainCal = (Button) view.findViewById(R.id.btnGainCal);
+        btnUpload = (LinearLayout) view.findViewById(R.id.btnUpload);
 
         // 네트워크 변경 권한 얻기
         getPermission();
@@ -181,9 +182,14 @@ public class HomeFragment extends Fragment {
 
                 if (cnt == 1)
                     ts = new Timestamp(System.currentTimeMillis());
+                    String timestamp = ts.toString();
+                    String date = timestamp.split("\\s")[0];
+                    String time = timestamp.split("\\s")[1];
+                    String filename = date + "_" +time.split(":")[0]+time.split(":")[1]+time.split(":")[2];
+
                 // 파일 이름: "mbll_start를 누른 시각의 timestamp"
-                saveData("mbll_" + ts, cnt, splittedHbO2HbR);
-                OBJECT_KEY = "mbll_" + ts + ".txt";
+                saveData("mbll_" + filename, cnt, splittedHbO2HbR);
+                OBJECT_KEY = "mbll_" + filename + ".txt";
 
                 Log.d(TAG, "raw:" + data.getRaw());
             }
@@ -252,19 +258,19 @@ public class HomeFragment extends Fragment {
         });
 
         // GAIN CAL BUTTON - Activity로 연결
-        btnGainCal.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                wifiConfig.SSID = String.format("\"%s\"", "NIRSIT4");
-                wifiConfig.preSharedKey = String.format("\"%s\"", "12345678");
-
-                int netId = wm.addNetwork(wifiConfig);
-                wm.disconnect();
-                wm.enableNetwork(netId, true);
-                wm.reconnect();
-                startActivity(new Intent(getActivity(), SettingActivity.class));
-            }
-        });
+//        btnGainCal.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                wifiConfig.SSID = String.format("\"%s\"", "NIRSIT4");
+//                wifiConfig.preSharedKey = String.format("\"%s\"", "12345678");
+//
+//                int netId = wm.addNetwork(wifiConfig);
+//                wm.disconnect();
+//                wm.enableNetwork(netId, true);
+//                wm.reconnect();
+//                startActivity(new Intent(getActivity(), SettingActivity.class));
+//            }
+//        });
 
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
