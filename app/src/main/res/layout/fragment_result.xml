@@ -43,11 +43,17 @@
         android:src="@drawable/lazy_brain"
         android:id="@+id/main_logo"/>
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/sl_result_report_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <android.support.v7.widget.RecyclerView
         android:background="@drawable/two_round_border_fill"
         android:id="@+id/rv_report_all_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginTop="10dp"/>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

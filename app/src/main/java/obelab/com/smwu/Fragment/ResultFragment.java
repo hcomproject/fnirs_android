@@ -2,8 +2,10 @@ package obelab.com.smwu.Fragment;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -30,6 +32,7 @@ public class ResultFragment extends Fragment {
     ArrayList<ReportData> dataList = new ArrayList<ReportData>();
     ReportsAllRVAdapter reportsAllRVAdapter;
     RecyclerView rv_report_all_list;
+    SwipeRefreshLayout sl_result_report_refresh;
     Context ctx;
 
     @Override
@@ -37,9 +40,29 @@ public class ResultFragment extends Fragment {
         // Inflate the layout for this fragment
         View v =  inflater.inflate(R.layout.fragment_result, container, false);
         rv_report_all_list = v.findViewById(R.id.rv_report_all_list);
-        getReportsResponse();
+        sl_result_report_refresh = v.findViewById(R.id.sl_result_report_refresh);
+
+        sl_result_report_refresh.setColorSchemeResources(
+                android.R.color.holo_red_light
+        );
 
         return v;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        sl_result_report_refresh.setOnRefreshListener(
+                new SwipeRefreshLayout.OnRefreshListener() {
+                    @Override
+                    public void onRefresh() {
+                        getReportsResponse();
+                        sl_result_report_refresh.setRefreshing(false);
+                    }
+                }
+        );
+
+        getReportsResponse();
     }
 
     @Override

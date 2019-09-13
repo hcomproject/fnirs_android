@@ -34,7 +34,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvScore;
     TextView tvResultScore;
     TextView tvGraphAnalysis;
-    ImageView ivGraph;
+    ImageView ivScoreGraph;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +51,7 @@ public class DetailActivity extends AppCompatActivity {
         tvScore = (TextView) findViewById(R.id.tv_detail_score);
         tvResultScore = (TextView) findViewById(R.id.tv_detail_result_score);
         tvGraphAnalysis = (TextView) findViewById(R.id.tv_detail_graph_analysis);
-        ivGraph = (ImageView) findViewById(R.id.iv_detail_graph);
+        ivScoreGraph = (ImageView) findViewById(R.id.iv_detail_score_graph);
 
         try {
             getReportDetailResponse();
@@ -84,11 +84,9 @@ public class DetailActivity extends AppCompatActivity {
                                     tvScore.setText(Integer.toString(data.getScore()));
                                     tvResultScore.setText(Integer.toString(data.getScore()));
                                     tvGraphAnalysis.setText(data.getGraph_analysis());
-
                                     Glide.with(getApplicationContext())
-                                                .load(data.getGraph_img())
-                                                .into(ivGraph);
-
+                                            .load(data.getScore_img())
+                                            .into(ivScoreGraph);
                                 }
                             }
                         }
