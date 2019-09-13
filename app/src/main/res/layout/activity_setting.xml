@@ -34,6 +34,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="12dp"
                     android:text="뇌의 활성화된 채널을 측정해보자!"
+                    android:fontFamily="@font/notosansdemilight"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
                     android:textSize="10dp"
@@ -58,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/notosansbold"
                 android:text="CALIBRATION CHANNELS"
                 android:textAlignment="center"
                 android:textColor="@color/colorGray"
@@ -71,7 +72,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
                 android:text="00/48"
-                android:fontFamily="sans-serif-medium"
+                android:fontFamily="@font/notosansblack"
                 android:textAlignment="center"
                 android:textColor="@color/colorAccentRed"
                 android:textSize="45sp"
@@ -99,6 +100,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:textAlignment="textEnd"
+                    android:fontFamily="@font/notosansbold"
                     android:text="SNR"
                     android:textColor="@color/colorAccentRed"
                     android:textSize="25sp" />
@@ -110,6 +112,7 @@
                     app:np_max="100"
                     app:np_min="0"
                     app:np_selectedTextSize="30dp"
+                    android:fontFamily="@font/notosansbold"
                     app:np_textSize="20dp"
                     app:np_value="30" />
             </LinearLayout>
@@ -127,6 +130,7 @@
                 android:layout_width="720px"
                 android:layout_height="wrap_content"
                 android:text="RETRY"
+                android:fontFamily="@font/notosansregular"
                 android:textSize="13sp" />
 
             <Button
@@ -135,6 +139,7 @@
                 android:layout_width="720px"
                 android:layout_height="wrap_content"
                 android:text="CALIBRATION"
+                android:fontFamily="@font/notosansregular"
                 android:textSize="13sp" />
         </LinearLayout>
     </RelativeLayout>

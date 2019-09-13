@@ -25,7 +25,7 @@ import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
 public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapter.MyViewHolder>{
     private Context ctx;
     private ArrayList<ReportData> mDataset;
-    String clickedKey;
+    View view;
     int myscore;
     public ReportsAllRVAdapter(Context context, ArrayList<ReportData> myData){
         this.ctx = context;
@@ -35,7 +35,7 @@ public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapte
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(ctx).inflate(R.layout.rv_item_result_overview, parent, false);
+        view = LayoutInflater.from(ctx).inflate(R.layout.rv_item_result_overview, parent, false);
         return new MyViewHolder(view);
     }
 
@@ -50,6 +50,20 @@ public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapte
 
         myscore = mDataset.get(position).getScore();
         final ReportData data_turn = mDataset.get(position);
+
+        if (myscore >= 0 && myscore <25 ) {
+            holder.score.setTextColor(Color.parseColor("#2196F3"));
+            holder.rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_blue));
+        }
+        else if (myscore >= 25 && myscore < 50 ){
+            holder.score.setTextColor(Color.parseColor("#8BC34A"));
+            holder.rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_green));
+        }
+        else if (myscore >= 50 && myscore < 79 ) {
+            holder.score.setTextColor(Color.parseColor("#FFC107"));
+            holder.rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_yellow));
+        }
+        holder.rv_progressBar.setProgress(myscore) ;
 
 
         holder.btnReportDetail.setOnClickListener(new View.OnClickListener() {
@@ -81,21 +95,6 @@ public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapte
             focused_time = (TextView) view.findViewById(R.id.tv_rv_item_product_overview_real_focus_time);
             score = (TextView) view.findViewById(R.id.txt_rv_item_product_overview_score);
             rv_progressBar = (ProgressBar)view.findViewById(R.id.rv_progressBar) ;
-
-            // 문자열을 숫자로 변환.
-            if (myscore >= 0 && myscore <25 ) {
-                score.setTextColor(Color.parseColor("#2196F3"));
-                rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_blue));
-            }
-            else if (myscore >= 25 && myscore < 50 ){
-                score.setTextColor(Color.parseColor("#8BC34A"));
-                rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_green));
-            }
-            else if (myscore >= 50 && myscore < 79 ) {
-                score.setTextColor(Color.parseColor("#FFC107"));
-                rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_yellow));
-            }
-            rv_progressBar.setProgress(myscore) ;
         }
     }
 

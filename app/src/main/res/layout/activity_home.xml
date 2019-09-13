@@ -25,6 +25,7 @@
             android:text="결과"
             android:textSize="14dp"
             android:textColor="@color/colorAccentRed"
+            android:fontFamily="@font/notosansregular"
             android:background="@color/colorWhite"
             android:textStyle="bold"/>
 
@@ -36,6 +37,7 @@
             android:text="홈"
             android:textSize="14dp"
             android:textColor="@color/colorAccentRed"
+            android:fontFamily="@font/notosansregular"
             android:background="@color/colorWhite"
             android:textStyle="bold"/>
 
@@ -47,6 +49,7 @@
             android:text="설정"
             android:textSize="14dp"
             android:textColor="@color/colorAccentRed"
+            android:fontFamily="@font/notosansregular"
             android:background="@color/colorWhite"
             android:textStyle="bold"/>
     </LinearLayout>

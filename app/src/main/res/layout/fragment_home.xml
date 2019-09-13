@@ -27,6 +27,7 @@
                 android:layout_marginLeft="40dp"
                 android:layout_marginRight="40dp"
                 android:background="@drawable/accent_border_fill"
+                android:fontFamily="@font/notosansmedium"
                 android:paddingVertical="3dp">
 
                 <TextView
@@ -83,7 +84,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/notosansmedium"
                         android:text="STUDY TIMER"
                         android:textAlignment="center"
                         android:textColor="@color/colorGray"
@@ -96,7 +97,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerHorizontal="true"
                         android:layout_marginTop="10dp"
-                        android:fontFamily="sans-serif-medium"
+                        android:fontFamily="@font/notosansbold"
                         android:text="00:00:00"
                         android:textAlignment="center"
                         android:textColor="@color/colorBlack"
@@ -111,6 +112,7 @@
                         android:layout_marginBottom="5dp"
                         android:background="@drawable/accent_border_fill"
                         android:text="START!"
+                        android:fontFamily="@font/notosansmedium"
                         android:textColor="@color/colorWhite" />
                 </LinearLayout>
             </FrameLayout>
@@ -135,6 +137,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="UPLOAD FILE"
+                    android:fontFamily="@font/notosansregular"
                     android:textStyle="bold"
                     android:textColor="@color/colorGray"/>
 
