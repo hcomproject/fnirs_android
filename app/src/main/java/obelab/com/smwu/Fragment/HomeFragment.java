@@ -79,9 +79,9 @@ public class HomeFragment extends Fragment {
     long myBaseTime;
     long myPauseTime;
     String ip = "192.168.0.1";
-    TextView dataHbO2TextView;
+    //TextView dataHbO2TextView;
     //TextView inputDataTextView;
-    TextView dataHbRTextView;
+    //TextView dataHbRTextView;
     NirsitProvider nirsitProvider;
     double[] splittedHbO2 = new double[16];
     Button btnStart;
@@ -153,8 +153,8 @@ public class HomeFragment extends Fragment {
         btnStart = (Button) view.findViewById(R.id.btn_start);
         txtTime = (TextView) view.findViewById(R.id.txt_time);
         vp = (ViewPager) view.findViewById(R.id.vp_main_product);
-        dataHbRTextView = (TextView) view.findViewById(R.id.dataHbRTextView);
-        dataHbO2TextView = (TextView) view.findViewById(R.id.dataHbO2TextView);
+        //dataHbRTextView = (TextView) view.findViewById(R.id.dataHbRTextView);
+        //dataHbO2TextView = (TextView) view.findViewById(R.id.dataHbO2TextView);
 
         // gaincal로 넘어가기 위해 추가한 버튼
         //btnGainCal = (Button) view.findViewById(R.id.btnGainCal);
@@ -196,7 +196,7 @@ public class HomeFragment extends Fragment {
                 }
 
                 //inputData.add(splittedHbO2HbR);
-                dataHbO2TextView.setText("[d780]\n" + Arrays.toString(splittedHbO2));
+                //dataHbO2TextView.setText("[d780]\n" + Arrays.toString(splittedHbO2));
                 //dataHbRTextView.setText("[d850]\n" + Arrays.toString(splittedHbR));
 
                 Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
@@ -339,6 +339,9 @@ public class HomeFragment extends Fragment {
                 file_name, /* 버킷에 저장할 파일의 이름 */
                 file /* 버킷에 저장할 파일  */
         );
+
+        // 업로드 버튼 비활성화
+        btnUpload.setBackground(getResources().getDrawable(R.drawable.unselected_border_fill));
     }
 
     String getTimeOut() {
