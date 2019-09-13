@@ -56,7 +56,6 @@ public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapte
             @Override
             public void onClick(View v) {
                 try {
-                    Log.d("현주", data_turn.getKey());
                     Intent intent = new Intent(ctx, DetailActivity.class);
                     intent.putExtra("key", data_turn.getKey());
                     ctx.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
