@@ -73,4 +73,9 @@ public class OpenActivity  extends AppCompatActivity {
             return 3;
         }
     }
+    public void onFragmentChange(int index){
+        if(index == 0 ){
+            getSupportFragmentManager().beginTransaction().replace(R.id.vp_main_product, new HomeFragment());
+        }
+    }
 }
