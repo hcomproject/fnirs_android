@@ -48,14 +48,14 @@
                 android:background="@drawable/chat_box"
                 android:rotation="180" />
 
-                <ImageView
-                    android:id="@+id/main_logo"
-                    android:layout_width="145dp"
-                    android:layout_height="116dp"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="-10dp"
-                    android:paddingBottom="10dp"
-                    android:src="@drawable/brain_side_write" />
+            <ImageView
+                android:id="@+id/main_logo"
+                android:layout_width="145dp"
+                android:layout_height="116dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="-10dp"
+                android:paddingBottom="10dp"
+                android:src="@drawable/brain_side_write" />
             </LinearLayout>
 
 

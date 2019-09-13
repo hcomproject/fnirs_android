@@ -8,25 +8,61 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:context=".SettingActivity"
-        android:background="@android:color/white">
+        android:background="@color/colorWhite">
 
         <LinearLayout
             android:id="@+id/channelLayout"
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary">
+            android:paddingTop="20dp"
+            android:background="@color/colorBackground">
+
+            <FrameLayout
+                android:layout_width="190dp"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/accent_border_fill"
+                android:paddingVertical="6dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginLeft="12dp"
+                    android:text="뇌의 활성화된 채널을 측정해보자!"
+                    android:textAlignment="center"
+                    android:textColor="@color/colorWhite"
+                    android:textSize="10dp"
+                    android:textStyle="bold" />
+            </FrameLayout>
+
+            <ImageView
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/chat_box"
+                android:rotation="180" />
+            <ImageView
+                android:id="@+id/main_logo"
+                android:layout_width="145dp"
+                android:layout_height="116dp"
+                android:layout_marginTop="-10dp"
+                android:layout_gravity="center_horizontal"
+                android:src="@drawable/brain_cal" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
-                android:text="CALIBRATION CHANNELS"
                 android:fontFamily="sans-serif-medium"
+                android:text="CALIBRATION CHANNELS"
                 android:textAlignment="center"
                 android:textColor="@color/colorGray"
-                android:textSize="40sp"
+                android:textSize="20dp"
                 android:textStyle="bold" />
 
             <TextView
@@ -34,12 +70,11 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="15dp"
-                android:layout_marginTop="20dp"
                 android:text="00/48"
                 android:fontFamily="sans-serif-medium"
                 android:textAlignment="center"
-                android:textColor="@color/colorAccent"
-                android:textSize="50sp"
+                android:textColor="@color/colorAccentRed"
+                android:textSize="45sp"
                 android:textStyle="bold" />
 
             <ProgressBar
@@ -49,64 +84,58 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="4dp"
+                android:layout_marginBottom="10dp"
                 android:max="100"
                 android:minWidth="500dp" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/spinnerLayout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/channelLayout"
-            android:layout_centerHorizontal="true"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
+            <LinearLayout android:background="@drawable/two_round_border_fill"
+                android:id="@+id/spinnerLayout"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:text="SNR"
-                android:textColor="@color/textNormal"
-                android:textSize="25sp" />
+                android:layout_below="@+id/channelLayout"
+                android:orientation="horizontal">
 
-            <com.shawnlin.numberpicker.NumberPicker
-                android:id="@+id/snrPicker"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
-                app:np_max="100"
-                app:np_min="0"
-                app:np_selectedTextSize="30dp"
-                app:np_textSize="20dp"
-                app:np_value="30" />
+                <TextView
+                    android:layout_width="720px"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:textAlignment="textEnd"
+                    android:text="SNR"
+                    android:textColor="@color/colorAccentRed"
+                    android:textSize="25sp" />
+
+                <com.shawnlin.numberpicker.NumberPicker
+                    android:id="@+id/snrPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="200dp"
+                    app:np_max="100"
+                    app:np_min="0"
+                    app:np_selectedTextSize="30dp"
+                    app:np_textSize="20dp"
+                    app:np_value="30" />
+            </LinearLayout>
         </LinearLayout>
-
         <LinearLayout
             android:id="@+id/buttonLayout"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="12dp"
-            android:layout_marginRight="12dp">
+            android:layout_alignParentBottom="true">
 
             <Button
+                android:background="@drawable/primary_border_fill"
                 android:id="@+id/buttonLeft"
-                android:layout_width="wrap_content"
+                android:layout_width="720px"
                 android:layout_height="wrap_content"
                 android:text="RETRY"
-                android:textSize="25sp" />
+                android:textSize="13sp" />
 
             <Button
+                android:background="@drawable/primary_border_fill"
                 android:id="@+id/buttonRight"
-                android:layout_width="wrap_content"
+                android:layout_width="720px"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="4dp"
                 android:text="CALIBRATION"
-                android:textSize="25sp" />
-
+                android:textSize="13sp" />
         </LinearLayout>
-
     </RelativeLayout>
 </layout>
