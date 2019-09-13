@@ -5,6 +5,7 @@ import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,8 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import static android.content.Intent.FLAG_ACTIVITY_NEW_TASK;
+
 public class DetailActivity extends AppCompatActivity {
 
     NetworkService networkService;
@@ -35,6 +38,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvResultScore;
     TextView tvGraphAnalysis;
     ImageView ivScoreGraph;
+    String score_img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +47,7 @@ public class DetailActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         KEY = intent.getStringExtra("key");
+
 
         tvDate = (TextView) findViewById(R.id.tv_detail_date);
         tvStudyTime = (TextView) findViewById(R.id.tv_detail_study_time);
@@ -58,6 +63,19 @@ public class DetailActivity extends AppCompatActivity {
         }catch(Exception e){
             Log.e("현주: Detail ", e.getMessage());
         }
+
+        ivScoreGraph.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Intent intent = new Intent(ctx, PhotoZoomInActivity.class);
+                    intent.putExtra("imageURL", score_img);
+                    ctx.startActivity(intent.addFlags(FLAG_ACTIVITY_NEW_TASK));
+                }catch (Exception e){
+                    Log.e("현주", "startActivity 실패"+ e.getMessage());
+                }
+            }
+        });
     }
         public void getReportDetailResponse(){
             // 서버 통신
@@ -87,6 +105,7 @@ public class DetailActivity extends AppCompatActivity {
                                     Glide.with(getApplicationContext())
                                             .load(data.getScore_img())
                                             .into(ivScoreGraph);
+                                    score_img =  data.getScore_img();
                                 }
                             }
                         }
