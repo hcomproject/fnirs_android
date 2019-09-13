@@ -1,11 +1,15 @@
 package obelab.com.smwu.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -35,7 +39,7 @@ public class DetailActivity extends AppCompatActivity {
     TextView tvResultScore;
     TextView tvGraphAnalysis;
     ImageView ivScoreGraph;
-
+    ProgressBar progressBar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +56,7 @@ public class DetailActivity extends AppCompatActivity {
         tvResultScore = (TextView) findViewById(R.id.tv_detail_result_score);
         tvGraphAnalysis = (TextView) findViewById(R.id.tv_detail_graph_analysis);
         ivScoreGraph = (ImageView) findViewById(R.id.iv_detail_score_graph);
+        progressBar = (ProgressBar) findViewById(R.id.progressBar) ;
 
         try {
             getReportDetailResponse();
@@ -87,6 +92,23 @@ public class DetailActivity extends AppCompatActivity {
                                     Glide.with(getApplicationContext())
                                             .load(data.getScore_img())
                                             .into(ivScoreGraph);
+                                    // 문자열을 숫자로 변환.
+                                    int value = Integer.parseInt(tvScore.getText().toString());
+
+                                    if (value >= 0 && value <25 ) {
+                                        tvScore.setTextColor(Color.parseColor("#2196F3"));
+                                        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.score_circle_bar_blue));
+                                    }
+                                    else if (value >= 25 && value < 50 ){
+                                        tvScore.setTextColor(Color.parseColor("#8BC34A"));
+                                        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.score_circle_bar_green));
+                                    }
+                                    else if (value >= 50 && value < 79 ) {
+                                        tvScore.setTextColor(Color.parseColor("#FFC107"));
+                                        progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.score_circle_bar_yellow));
+                                    }
+
+                                    progressBar.setProgress(value) ;
                                 }
                             }
                         }
