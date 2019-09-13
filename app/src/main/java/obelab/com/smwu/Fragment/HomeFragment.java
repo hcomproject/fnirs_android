@@ -84,6 +84,7 @@ public class HomeFragment extends Fragment {
     TextView dataHbRTextView;
     NirsitProvider nirsitProvider;
     double[] splittedHbO2 = new double[16];
+    Button btnStart;
 
     //ArrayList<double[]> inputData = new ArrayList();
     //double[] splittedHbR = new double[16];
@@ -95,6 +96,26 @@ public class HomeFragment extends Fragment {
         public void handleMessage(Message msg) {
             txtTime.setText(getTimeOut());
             myTimer.sendEmptyMessage(0);    // sendEmptyMessage는 비어있는 메시지를 Handler에게 전송.
+
+            // 1시간 이상 학습 시 멈추기
+            if ( Integer.parseInt(getTimeOut().split(":")[0]) >= 60 ){
+                myTimer.removeMessages(0);
+                myPauseTime = SystemClock.elapsedRealtime();
+                btnStart.setText("Start!");
+                cur_Status = Init;
+                if (nirsitProvider == null) {
+                    return;
+                }
+                nirsitProvider.stopMonitoring();
+
+                // stop시 Mbll 초기화, count도 초기화
+                nirsitProvider.setMbll(false);
+                cnt = 0;
+
+                txtTime.setText("00:00:00");
+                Toast.makeText(getActivity().getApplicationContext(), "1시간 이상 학습하셨습니다.\n" +
+                        "잠시 쉬는시간을 가지는게 좋을 것 같습니다.", Toast.LENGTH_LONG).show();
+            }
         }
     };
 
@@ -129,7 +150,7 @@ public class HomeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         ViewPager vp;
-        final Button btnStart = (Button) view.findViewById(R.id.btn_start);
+        btnStart = (Button) view.findViewById(R.id.btn_start);
         txtTime = (TextView) view.findViewById(R.id.txt_time);
         vp = (ViewPager) view.findViewById(R.id.vp_main_product);
         dataHbRTextView = (TextView) view.findViewById(R.id.dataHbRTextView);
@@ -248,6 +269,9 @@ public class HomeFragment extends Fragment {
                             cnt = 0;
 
                             txtTime.setText("00:00:00");
+
+                            // 업로드 버튼 활성화
+                            btnUpload.setBackground(getResources().getDrawable(R.drawable.accent_border_fill));
 
                             Log.d(TAG, "COUNT:  " + cnt + "    Mbll:  " + nirsitProvider.isMbll());
                         } else {

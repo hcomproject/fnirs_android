@@ -57,7 +57,7 @@
                 android:layout_marginTop="-10dp"
                 android:paddingBottom="10dp"
                 android:src="@drawable/brain_side_write" />
-            </LinearLayout>
+        </LinearLayout>
 
 
         <LinearLayout
@@ -104,82 +104,108 @@
                         android:textSize="40dp"
                         android:textStyle="bold" />
 
-                    <Button
-                        android:id="@+id/btn_start"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginTop="15dp"
-                        android:layout_marginBottom="5dp"
-                        android:background="@drawable/accent_border_fill"
-                        android:text="START!"
-                        android:fontFamily="@font/notosansmedium"
-                        android:textColor="@color/colorWhite" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btn_start"
+                            android:layout_width="180dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/accent_border_fill"
+                            android:fontFamily="@font/notosansbold"
+                            android:text="START!"
+                            android:textColor="@color/colorWhite"
+                            android:textSize="18sp" />
+
+                        <LinearLayout
+                            android:id="@+id/btnUpload"
+                            android:layout_width="70dp"
+                            android:layout_height="50dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="15dp"
+                            android:layout_marginBottom="5dp"
+                            android:background="@drawable/unselected_border_fill">
+
+                            <ImageView
+                                android:layout_width="20dp"
+                                android:layout_height="20dp"
+                                android:layout_gravity="center"
+                                android:layout_marginLeft="25dp"
+                                android:src="@drawable/icon_upload" />
+                        </LinearLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/btnUpload"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/primary_border_fill"
-                android:orientation="horizontal"
-                android:gravity="center">
+            <!--<LinearLayout-->
+            <!--android:id="@+id/btnUpload"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/primary_border_fill"-->
+            <!--android:orientation="horizontal"-->
+            <!--android:gravity="center">-->
 
-                <ImageView
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="end"
-                    android:paddingTop="10dp"
-                    android:layout_marginVertical="10dp"
-                    android:src="@drawable/btn_upload" />
+            <!--<ImageView-->
+            <!--android:layout_width="30dp"-->
+            <!--android:layout_height="30dp"-->
+            <!--android:layout_gravity="end"-->
+            <!--android:paddingTop="10dp"-->
+            <!--android:layout_marginVertical="10dp"-->
+            <!--android:src="@drawable/btn_upload" />-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="UPLOAD FILE"
-                    android:fontFamily="@font/notosansregular"
-                    android:textStyle="bold"
-                    android:textColor="@color/colorGray"/>
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:text="UPLOAD FILE"-->
+            <!--android:fontFamily="@font/notosansregular"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textColor="@color/colorGray"/>-->
 
-                <!--<Button-->
-                    <!--android:id="@+id/btnGainCal"-->
-                    <!--android:layout_width="720px"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_centerHorizontal="true"-->
-                    <!--android:background="@drawable/primary_border_fill"-->
-                    <!--android:text="GAIN CAL"-->
-                    <!--android:textColor="@color/colorGray" />-->
-
-
+            <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/btnGainCal"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="720px"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="40dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_centerHorizontal="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:background="@drawable/primary_border_fill"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="GAIN CAL"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textColor="@color/colorGray" />&ndash;&gt;-->
 
 
-                <!--<Button-->
-                    <!--android:id="@+id/btnUpload"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="40dp"-->
-                    <!--android:layout_alignParentEnd="true"-->
-                    <!--android:background="@drawable/primary_border_fill"-->
-                    <!--android:elevation="2dp"-->
-                    <!--android:text="UPLOAD"-->
-                    <!--android:textColor="@color/colorGray" />-->
-            </LinearLayout>
+            <!--&lt;!&ndash;<Button&ndash;&gt;-->
+            <!--&lt;!&ndash;android:id="@+id/btnUpload"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_height="40dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:layout_alignParentEnd="true"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:background="@drawable/primary_border_fill"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:elevation="2dp"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:text="UPLOAD"&ndash;&gt;-->
+            <!--&lt;!&ndash;android:textColor="@color/colorGray" />&ndash;&gt;-->
+            <!--</LinearLayout>-->
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1">
+
                 <TextView
                     android:id="@+id/dataHbRTextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:text="[d780]"/>
+                    android:text="[d780]"
+                    android:textColor="@android:color/holo_red_dark" />
             </ScrollView>
+
             <ScrollView
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
@@ -189,8 +215,8 @@
                     android:id="@+id/dataHbO2TextView"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:textColor="@android:color/holo_red_dark"
-                    android:text="[m780]"/>
+                    android:text="[m780]"
+                    android:textColor="@android:color/holo_red_dark" />
             </ScrollView>
 
             <!--inputData - 보여줄 필요 없음 - file로 확인 가능
@@ -209,6 +235,6 @@
 
 
         </LinearLayout-->
-    </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
 </ScrollView>
