@@ -251,4 +251,20 @@ public class SettingFragment extends Fragment {
 //        }
 //    }
 
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (mNirsitProvider != null) {
+            mNirsitProvider.stopCalibration();
+        }
+    }
+//
+//    public void onBackPressed() {
+//        super.getActivity().onBackPressed();
+//        if(mNirsitProvider != null){
+//            mNirsitProvider.stopCalibration();
+//        }
+//    }
+
 }

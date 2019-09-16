@@ -51,7 +51,7 @@ public class SettingActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*PermissionListener permissionListener = new PermissionListener() {
+        PermissionListener permissionListener = new PermissionListener() {
             @Override
             public void onPermissionGranted() {
                 // findViewById 대신 databinding 이용
@@ -73,7 +73,7 @@ public class SettingActivity extends AppCompatActivity {
                 .setDeniedMessage("왜 거부하셨어요...\n하지만 [설정] > [권한] 에서 권한을 허용할 수 있어요.")
                 .setPermissions(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .setPermissions(Manifest.permission.READ_EXTERNAL_STORAGE)
-                .check();*/
+                .check();
     }
 
     private void initLayout() {
