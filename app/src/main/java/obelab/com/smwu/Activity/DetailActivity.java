@@ -122,7 +122,7 @@ public class DetailActivity extends AppCompatActivity {
                                         tvScore.setTextColor(Color.parseColor("#8BC34A"));
                                         progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.score_circle_bar_green));
                                     }
-                                    else if (value >= 50 && value < 79 ) {
+                                    else if (value >= 50 && value < 75 ) {
                                         tvScore.setTextColor(Color.parseColor("#FFC107"));
                                         progressBar.setProgressDrawable(getResources().getDrawable(R.drawable.score_circle_bar_yellow));
                                     }

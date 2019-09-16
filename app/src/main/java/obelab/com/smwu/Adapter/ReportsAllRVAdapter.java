@@ -59,7 +59,7 @@ public class ReportsAllRVAdapter extends RecyclerView.Adapter<ReportsAllRVAdapte
             holder.score.setTextColor(Color.parseColor("#8BC34A"));
             holder.rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_green));
         }
-        else if (myscore >= 50 && myscore < 79 ) {
+        else if (myscore >= 50 && myscore < 75 ) {
             holder.score.setTextColor(Color.parseColor("#FFC107"));
             holder.rv_progressBar.setProgressDrawable(view.getResources().getDrawable(R.drawable.score_circle_bar_yellow));
         }
