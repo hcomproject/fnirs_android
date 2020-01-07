@@ -21,18 +21,18 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center_horizontal"
                 android:paddingVertical="6dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/tv_detail_date"
-                    android:layout_width="116dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerHorizontal="true"
                     android:fontFamily="@font/notosansbold"
-                    android:paddingLeft="45dp"
-                    android:text="00월 00일"
+                    tools:text="00월 00일"
                     android:textColor="@color/colorAccent"
-                    android:textSize="10dp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -42,7 +42,7 @@
                     android:text="의 세부 집중레포트야!"
                     android:textAlignment="center"
                     android:textColor="@color/colorWhite"
-                    android:textSize="10dp"
+                    android:textSize="12sp"
                     android:textStyle="bold" />
             </LinearLayout>
         </FrameLayout>
@@ -64,22 +64,27 @@
 
         <LinearLayout android:background="@drawable/two_round_border_fill"
             android:layout_width="match_parent"
-            android:layout_height="437dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:paddingBottom="20dp"
             android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/iv_detail_score_graph"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
+                android:layout_marginTop="10dp"
                 android:layout_marginBottom="-25dp"
                 android:layout_marginHorizontal="-35dp"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:orientation="horizontal"
-                android:paddingLeft="10dp"
-                >
+                android:paddingTop="30dp"
+                android:paddingLeft="10dp">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -89,6 +94,7 @@
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
                     android:textSize="10dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -98,6 +104,7 @@
                     android:textAlignment="center"
                     android:textColor="#115181"
                     android:textSize="10dp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -115,7 +122,8 @@
                 android:orientation="horizontal">
 
             <LinearLayout
-                android:layout_width="720px"
+                android:layout_width="wrap_content"
+                android:layout_marginStart="150dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -129,7 +137,7 @@
                     android:text="전체 학습 시간"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -138,7 +146,7 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
                     android:fontFamily="@font/notosansblack"
-                    android:text="00:00:00"
+                    tools:text="00:00:00"
                     android:textAlignment="center"
                     android:textColor="@color/colorMidGray"
                     android:textSize="30dp"
@@ -154,7 +162,7 @@
                     android:text="실제 집중 시간"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="20dp" />
+                    android:textSize="20sp" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -163,10 +171,10 @@
                     android:layout_centerHorizontal="true"
                     android:layout_marginLeft="15dp"
                     android:fontFamily="@font/notosansblack"
-                    android:text="00:00:00"
+                    tools:text="00:00:00"
                     android:textAlignment="center"
                     android:textColor="@color/colorGray"
-                    android:textSize="30dp"
+                    android:textSize="30sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -228,9 +236,11 @@
                 </RelativeLayout>
         </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <TextView
@@ -277,9 +287,9 @@
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="15dp"
             android:fontFamily="@font/notosansmedium"
-            android:textSize="12sp"
+            android:textSize="14sp"
             android:textAlignment="center"
             android:paddingBottom="30dp"
-            android:text="그래프 설명이 들어가는 부분입니다."/>
+            tools:text="그래프 설명이 들어가는 부분입니다."/>
     </LinearLayout>
 </ScrollView>
