@@ -10,7 +10,7 @@ import retrofit2.http.Path;
 
 public interface NetworkService {
 
-    String baseURL = "http://ec2-13-209-48-0.ap-northeast-2.compute.amazonaws.com:7777";
+    String baseURL = "http://13.125.136.244:7777";
 
     // 레포트 전체보기
     @GET("/reportdatas")
